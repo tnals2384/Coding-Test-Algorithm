@@ -1,0 +1,2 @@
+-- 코드를 입력하세요
+SELECT rest_info.rest_id, rest_name, food_type, favorites, address, round(avg(review_score),2) as score from rest_info, rest_review where address Like('서울%') and rest_info.rest_id=rest_review.rest_id group by address order by score Desc, favorites Desc;
