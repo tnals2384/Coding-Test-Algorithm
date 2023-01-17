@@ -23,9 +23,6 @@ class Solution {
             }
         }
            
-        
-
-
         int[] answer = new int[2];
         answer[0] = numberOfArea;
         answer[1] = maxSizeOfOneArea;
@@ -33,7 +30,7 @@ class Solution {
     }
 
     public void dfs(int x,int y,boolean[][] check,int [][] picture) {
-        if(check[x][y]) return;
+       
         check[x][y]=true;
         count++;
         for(int i=0; i<4;i++) {
