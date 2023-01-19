@@ -3,10 +3,13 @@ import java.util.*;
 class Solution {
     public String solution(String s) {
         String answer = "";
-        char[] ch = s.toCharArray();
-        Arrays.sort(ch);
-        for(int i=s.length()-1;i>=0;i--) {
-            answer+=ch[i];
+        String[] str = new String[s.length()];
+        for(int i=0;i<s.length();i++) {
+            str[i]=s.substring(i,i+1);
+        }
+        Arrays.sort(str, Collections.reverseOrder());
+        for(int i=0;i<s.length();i++) {
+            answer+=str[i];
         }
         return answer;
     }
