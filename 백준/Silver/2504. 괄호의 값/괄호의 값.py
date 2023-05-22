@@ -1,36 +1,37 @@
-stack = [] 
-temp = 1 
-result = 0 
-p = list(input()) 
 
+str = list(input())
+stack = []
 
-for i in range(len(p)):
-  if p[i]=='(':
-    temp *= 2
-    stack.append(p[i])
+ans=0
+temp=1
+
+for i in range(len(str)):
+    if str[i]=='(':
+        temp*=2
+        stack.append(str[i])
+    elif str[i]=='[':
+        temp*=3
+        stack.append(str[i])
     
-  elif p[i]=='[':
-    temp *= 3
-    stack.append(p[i])
+    elif str[i] == ')':
+        if not stack or stack[-1] =='[':
+            ans=0
+            break
+        if str[i-1]=='(':
+            ans+=temp
+        temp//=2
+        stack.pop()
+        
+    elif str[i] ==']':
+        if not stack or stack[-1] =='(':
+            ans=0
+            break
+        if str[i-1]=='[':
+            ans+=temp
+        temp//=3
+        stack.pop()
     
-  elif p[i]==')':
-    if not stack or stack[-1]!='(':
-      result = 0
-      break
-    if p[i-1]=='(': result += temp
-    temp //= 2
-    stack.pop()
-    
-  elif p[i]==']':
-    if not stack or stack[-1]!='[':
-      result = 0
-      break
-    if p[i-1]=='[': result += temp
-    temp //= 3
-    stack.pop()
-
-
 if stack:
-  print(0)
-else:
-  print(result)
+    ans=0
+
+print(ans)
