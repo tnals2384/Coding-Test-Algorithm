@@ -1,17 +1,17 @@
 import sys
 input = sys.stdin.readline
-from queue import PriorityQueue
+import heapq
 N =int(input())
 
-arr=PriorityQueue()
+arr=[]
 
 for i in range(N):
     x=int(input())
     if x==0:
-        if arr.empty():
+        if len(arr)==0:
             print(0)
         else: 
-            print(arr.get()[1])
+            print(heapq.heappop(arr)[1])
     else:
-        arr.put((-x,x))
+        heapq.heappush(arr,(-x,x))
 
