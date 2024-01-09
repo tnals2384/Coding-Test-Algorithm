@@ -6,6 +6,8 @@ public class Main {
         int A = sc.nextInt();
         int B = sc.nextInt();
 
+
+
         int count=1;
         while(B>A) {
             if(B%2==0) {
@@ -28,4 +30,3 @@ public class Main {
         System.out.println(count);
     }
 }
-
