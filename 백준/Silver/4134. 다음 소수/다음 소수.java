@@ -20,7 +20,7 @@ public class Main {
         //제곱근 이용
         for(long i=x;;i++) {
             boolean flag = true;
-            for(long j = 2; j <= Math.sqrt(i) + 1; j++) {
+            for(long j = 2; j <= Math.sqrt(i); j++) {
                 if(i%j==0) {
                     flag= false;
                     break;
