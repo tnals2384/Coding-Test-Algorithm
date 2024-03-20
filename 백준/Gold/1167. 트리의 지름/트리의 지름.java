@@ -10,8 +10,6 @@ public class Main {
     static boolean[] visited;
     static int N;
     static ArrayList<Node>[] A;
-    static int node;
-    static int max;
 
     public static class Node {
         int x;
@@ -20,6 +18,11 @@ public class Main {
         public Node(int x, int d ){
             this.x = x;
             this.d = d;
+        }
+
+        public void of(int x,int d) {
+            this.x = x;
+            this.d =d;
         }
 
     }
@@ -47,19 +50,22 @@ public class Main {
         }
 
 
-        dfs(1,0);
-        visited = new boolean[N+1];
-        dfs(node,0);
+            dfs(1,0);
+            visited = new boolean[N+1];
+            dfs(maxNode.x,0);
 
-        System.out.println(max);
+            System.out.println(maxNode.d);
 
     }
+    static Node maxNode = new Node(0,0);
     public static void dfs(int start,int count) {
-        if(max < count) {
-            node = start;
-            max = count;
+        if(maxNode.d < count) {
+            maxNode.x= start;
+            maxNode.d = count;
         }
-        visited[start] = true;
+
+
+        visited[start]= true;
         for(int i=0;i<A[start].size();i++) {
             Node node = A[start].get(i);
             if(!visited[node.x]) {
