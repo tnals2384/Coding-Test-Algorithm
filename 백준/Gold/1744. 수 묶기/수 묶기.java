@@ -1,50 +1,49 @@
-import java.io.*;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class Main {
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine());
+        PriorityQueue<Integer> minus = new PriorityQueue<>();
+        int zero = 0;
+        int one = 0;
+        PriorityQueue<Integer> plus = new PriorityQueue<>(Comparator.reverseOrder());
+        
+        for (int i = 0; i < N; i++) {
+            int x = Integer.parseInt(br.readLine());
+            if (x < 0)
+                minus.add(x);
+            else if (x == 0)
+                zero++;
+            else if (x == 1)
+                one++;
+            else plus.add(x);
+        }
 
-	public static void main(String[] args) throws IOException{
-		// TODO Auto-generated method stub
-		BufferedReader br=new BufferedReader(new InputStreamReader(System.in));
-		
-		int n=Integer.parseInt(br.readLine());
-		int[] num=new int[n];
-		
-		int minus=0;
-		for(int i=0;i<n;i++) {
-			num[i]=Integer.parseInt(br.readLine());
-			
-			// 음수의 개수 count
-			if(num[i]<=0)
-				minus++;
-		}
-			
-		
-		Arrays.sort(num);
-		
-		int result=0;
-		
-		for(int i=1;i<minus;i+=2)
-			result+=num[i-1]*num[i];
-		
-		
-		if(minus%2==1)
-			result+=num[minus-1];
+        int ans = 0;
 
-		if((n-minus)%2==1)
-			result+=num[minus];
+        //큰 음수끼리 곱
+        while (minus.size() > 1)
+            ans += (minus.poll() * minus.poll());
 
-		for(int i=n-1;i>minus;i-=2) {
-			int sum=num[i]+num[i-1];
-			int mul=num[i]*num[i-1];
-			
-			if(sum>mul)
-				result+=sum;
-			else
-				result+=mul;
-		}
-		
-		System.out.println(result);
-	}
+        //0이 없으면 남은 음수를 더해주고, 0이 있으면 더하지 않음
+        if (zero == 0 && !minus.isEmpty())
+            ans += minus.poll();
 
+        //큰 양수끼리 곱
+        while (plus.size() > 1)
+            ans += (plus.poll() * plus.poll());
+
+        //남은 양수는 더해주기
+        if (!plus.isEmpty())
+            ans += plus.poll();
+
+        //남은 1 더해주기
+        System.out.println(ans + one);
+    }
 }
