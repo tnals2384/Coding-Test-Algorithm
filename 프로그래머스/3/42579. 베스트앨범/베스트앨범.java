@@ -19,12 +19,13 @@ class Solution {
         }
 
         List<String> keySet = new ArrayList<>(total.keySet());
-        keySet.sort((o1, o2) -> total.get(o2) - total.get(o1));
+        keySet.sort(Comparator.comparing(total::get).reversed());
+
 
         for(String key : keySet) {
             HashMap<Integer,Integer> map = inGenre.get(key);
             List<Integer> genreKeys = new ArrayList<>(map.keySet());
-            genreKeys.sort((o1, o2) -> map.get(o2) - map.get(o1));
+            genreKeys.sort(Comparator.comparing(map::get).reversed());
  
             answer.add(genreKeys.get(0));
             if(genreKeys.size() > 1)
