@@ -2,15 +2,12 @@ import java.util.*;
 class Solution {
     public int solution(int[][] sizes) {
         int len = sizes.length;
-        int[] min = new int[len];
-        int[] max = new int[len];
-        
-        for(int i=0;i<len;i++) {
-            min[i] = Math.min(sizes[i][0],sizes[i][1]);
-            max[i] = Math.max(sizes[i][0],sizes[i][1]);
+        int width = 0;
+        int height = 0;
+        for(int[] size : sizes) {
+            width = Math.max(width, Math.max(size[0],size[1]));
+            height = Math.max(height, Math.min(size[0],size[1]));
         }
-        Arrays.sort(min);
-        Arrays.sort(max);
-        return min[len-1]*max[len-1];
+        return width * height;
     }
 }
