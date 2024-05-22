@@ -4,17 +4,16 @@ class Solution {
          int min = 1;
          int max= 200000000;
          
-         while(min <= max) {
+         while(min < max) {
              int mid = (min+max) / 2 ;
              
              if(check(stones, k, mid)) {
-                 min = mid+1;
-                 answer = min;
+                 min = mid + 1;
              }
              else
-                 max = mid-1;
+                 max = mid;
          }
-         return answer;
+         return max;
          
     }
     
