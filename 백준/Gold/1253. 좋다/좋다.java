@@ -16,28 +16,28 @@ public class Main {
         for (int i = 0; i < N; i++) {
             arr[i] = Long.parseLong(st.nextToken());
         }
-        //정렬
+        //1. 정렬
         Arrays.sort(arr);
+        int count=0;
+        //2. 투포인터 시작
+        for(int i = 0;i < N; i++) {
+            int start = 0;
+            int end = N-1;
 
-        int count = 0;
-
-        for (int i = 0; i < N; i++) {
-            int startIdx = 0;
-            int endIdx = N - 1;
-            while (startIdx < endIdx) {
-                if (arr[startIdx] + arr[endIdx] == arr[i]) {
-                    //자기자신일 경우를 제외해야 함
-                    if (startIdx != i && endIdx != i) {
+            while(start < end) {
+                if(start == i)
+                    start++;
+                else if(end == i)
+                    end--;
+                else {
+                    if (arr[start] + arr[end] < arr[i])
+                        start++;
+                    else if (arr[start] + arr[end] > arr[i])
+                        end--;
+                    else {
                         count++;
                         break;
-                    } else if (startIdx == i) {
-                        startIdx++;
-                    } else endIdx--;
-                }
-                else if (arr[startIdx] + arr[endIdx] < arr[i])
-                    startIdx++;
-                else {
-                    endIdx--;
+                    }
                 }
             }
         }
