@@ -2,22 +2,24 @@ import java.util.*;
 class Solution {
     public String solution(int[] numbers) {
         String answer = "";
-        String[] nums = Arrays.stream(numbers).mapToObj(Integer::toString).toArray(String[]::new);
+        String[] nums = new String[numbers.length];
         
-        Arrays.sort(nums,(o1,o2) -> {
-            String st1 = o1 + o2;
-            String st2 = o2 + o1;
+        for(int i = 0; i< numbers.length; i++) {
+            nums[i] = Integer.toString(numbers[i]);
+        }
+        
+        Arrays.sort(nums, (o1,o2) -> {
+            String s1 = o1 + o2;
+            String s2 = o2 + o1;
             
-            return st2.compareTo(st1); //내림차순 
+            return s2.compareTo(s1);
         });
         
-        for(String num : nums)
-            answer+=num;
+        for(int i=0;i<nums.length;i++)
+            answer+= nums[i];
         
-        //0이 연속되는 경우 가장 큰 값은 0
         if(answer.charAt(0)=='0')
             return "0";
-        
         return answer;
     }
 }
