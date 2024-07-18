@@ -1,13 +1,15 @@
 class Solution {
     public String solution(String s) {
-        String answer = "";
+        StringBuilder sb = new StringBuilder();
         
-        answer += s.substring(0,1).toUpperCase();
-        for(int i = 1; i < s.length();i++) {
-           if(s.charAt(i-1) == ' ')
-               answer += s.substring(i,i+1).toUpperCase();
-            else answer += s.substring(i,i+1).toLowerCase();
+        String s2 = s.toLowerCase();
+        char last = ' ';
+        
+        for(char c : s2.toCharArray()) {
+            if(last == ' ') c = Character.toUpperCase(c); //앞이 공백일때만 대문자로 바꿔준다.
+            sb.append(c);
+            last = c;
         }
-        return answer;
+        return sb.toString();
     }
 }
