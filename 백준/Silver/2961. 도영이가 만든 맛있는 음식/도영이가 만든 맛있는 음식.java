@@ -7,14 +7,12 @@ public class Main {
     static int N;
     static int[][] A;
     static int min;
-    static boolean[] visited;
-
+ 
     public static void main(String[] args) throws IOException {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         N = Integer.parseInt(br.readLine());
         A = new int[N][2]; //0번은 신맛, 1번은 쓴맛
-        visited = new boolean[N];
 
         min = Integer.MAX_VALUE;
         for (int i = 0; i < N; i++) {
@@ -22,21 +20,19 @@ public class Main {
             A[i] = new int[]{Integer.parseInt(st.nextToken()), Integer.parseInt(st.nextToken())};
         }
 
-        check(0, 0, 1, 0);
+        check(0, false, 1, 0);
         System.out.println(min);
     }
 
-    public static void check(int depth, int count, int s, int b) {
+    public static void check(int depth, boolean used, int s, int b) {
         if (depth == N) {
-            if (count != 0) {
+            if (used) {
                 min = Math.min(min, Math.abs(s - b));
             }
             return;
         }
 
-        visited[depth] = true;
-        check(depth+1, count+1, s*A[depth][0], b+A[depth][1]);
-        visited[depth] = false;
-        check(depth+1,count,s,b);
+        check(depth+1,true, s*A[depth][0], b+A[depth][1]);
+        check(depth+1,used,s,b);
     }
 }
