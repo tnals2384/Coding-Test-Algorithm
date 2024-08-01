@@ -8,15 +8,19 @@ public class Main {
         int M = sc.nextInt();
         String S = sc.next();
         int count = 0;
+        int answer = 0;
 
-        //N은 O의 개수이다.
-        String P = "I" + "OI".repeat(N);
-
-        for (int i = 0; i < M - N; i++) {
-            if (S.startsWith(P, i))
+        for (int i = 0; i < M - 1; i++) {
+            if (S.startsWith("IOI", i)) {
                 count++;
+                i++;
+                if (count == N) {
+                    answer++;
+                    count--;
+                }
+            } else count = 0;
         }
 
-        System.out.println(count);
+        System.out.println(answer);
     }
 }
