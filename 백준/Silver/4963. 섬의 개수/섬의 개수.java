@@ -1,6 +1,8 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
 
@@ -33,7 +35,8 @@ public class Main {
                 for (int j = 0; j < w; j++) {
                     if (map[i][j] == 1 && !visited[i][j]) {
                         answer++;
-                        dfs(i, j);
+                        //dfs(i, j);
+                        bfs(i,j);
                     }
                 }
             }
@@ -53,6 +56,27 @@ public class Main {
             if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
 
             if (map[ny][nx] == 1) dfs(ny, nx);
+        }
+    }
+
+    public static void bfs(int y, int x) {
+        Queue<int[]> queue = new LinkedList<>();
+        queue.add(new int[] {y,x});
+
+        while(!queue.isEmpty()) {
+            int[] now = queue.poll();
+
+            if (visited[now[0]][now[1]]) continue;
+            visited[now[0]][now[1]] = true;
+
+            for (int i = 0; i < 8; i++) {
+                int ny = now[0] + dy[i];
+                int nx = now[1] + dx[i];
+
+                if (ny < 0 || ny >= h || nx < 0 || nx >= w) continue;
+
+                if (map[ny][nx] == 1) queue.add(new int[] {ny, nx});
+            }
         }
     }
 }
