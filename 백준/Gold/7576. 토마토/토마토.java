@@ -42,8 +42,6 @@ public class Main {
             }
         }
         int answer = 0;
-        boolean[][] visited = new boolean[M][N];
-
 
         if (!zero) {
             System.out.println(0);
@@ -51,10 +49,7 @@ public class Main {
             while (!queue.isEmpty()) {
                 Point p = queue.poll();
 
-                if (visited[p.y][p.x]) continue;
-
                 answer = p.w;
-                visited[p.y][p.x] = true;
                 for (int i = 0; i < 4; i++) {
                     int nx = p.x + dx[i];
                     int ny = p.y + dy[i];
