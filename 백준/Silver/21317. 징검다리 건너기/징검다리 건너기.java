@@ -3,46 +3,38 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class Main {
-    static int n;
-    static int answer = Integer.MAX_VALUE;
-    static int[][] arr;
-    static int k;
+    private static final int MAX = 999999;
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        n = Integer.parseInt(br.readLine());
+        int n = Integer.parseInt(br.readLine());
 
-        arr = new int[n + 1][2];
-        int small;
-        int big;
-        for (int i = 1; i <= n - 1; i++) {
+        int[] small = new int[n + 1];
+        int[] big = new int[n + 1];
+
+        for (int i = 1; i < n; i++) {
             String[] s = br.readLine().split(" ");
-            small = Integer.parseInt(s[0]);
-            big = Integer.parseInt(s[1]);
-            arr[i][0] = small;
-            arr[i][1] = big;
-        }
-        k = Integer.parseInt(br.readLine());
-
-        dfs(0, 1, false);
-        System.out.println(answer);
-    }
-
-    private static void dfs(int sum, int to, boolean flag) {
-        if (to == n) {
-            answer = Math.min(answer, sum);
-            return;
+            small[i] = Integer.parseInt(s[0]);
+            big[i] = Integer.parseInt(s[1]);
         }
 
-        if (to > n) {
-            return;
+        int k = Integer.parseInt(br.readLine());
+
+        int[][] dp = new int[n + 1][2];
+        for (int i = 2; i <= n; i++) {
+            dp[i][0] = MAX;
+            dp[i][1] = MAX;
         }
 
-        dfs(sum + arr[to][0], to + 1, flag); 
-        dfs(sum + arr[to][1], to + 2, flag); 
 
-        if (!flag) {
-            dfs(sum + k, to + 3, true);
+        if (n >= 2) dp[2][0] = small[1];
+        if (n >= 3) dp[3][0] = Math.min(small[1] + small[2], big[1]);
+
+        for (int i = 4; i <= n; i++) {
+            dp[i][0] = Math.min(dp[i - 1][0] + small[i - 1], dp[i - 2][0] + big[i - 2]);
+            dp[i][1] = Math.min(dp[i - 3][0] + k, Math.min(dp[i - 1][1] + small[i - 1], dp[i - 2][1] + big[i - 2]));
         }
+
+        System.out.println(Math.min(dp[n][0], dp[n][1]));
     }
 }
