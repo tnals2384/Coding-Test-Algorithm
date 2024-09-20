@@ -1,24 +1,23 @@
 import java.util.*;
 class Solution {
     public int solution(int[] priorities, int location) {
-        int answer= 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<>(Comparator.reverseOrder());
-
-        for(int i=0;i<priorities.length;i++) {
-            pq.add(priorities[i]);
+        int answer = 1;
+        
+        PriorityQueue<Integer> pq = new PriorityQueue<>((o1,o2) -> o2 - o1);
+        
+        for(int p: priorities) {
+            pq.add(p);
         }
-
         while(!pq.isEmpty()) {
-            for(int i=0; i <priorities.length; i++) {
+            for(int i=0; i < priorities.length; i++) {
                 if(priorities[i] == pq.peek()) {
                     pq.poll();
-                    answer++;
-                    if(i == location)
+                    if(location == i)
                         return answer;
+                    else answer++;
                 }
             }
         }
-
         return answer;
     }
 }
