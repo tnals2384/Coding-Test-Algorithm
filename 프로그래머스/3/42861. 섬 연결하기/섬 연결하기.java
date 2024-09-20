@@ -1,50 +1,58 @@
 import java.util.*;
 class Solution {
-    int[] uf;
     public class Edge {
-        int a;
-        int b;
+        int s;
+        int e;
         int w;
         
-        public Edge(int a,int b, int w) {
-            this.a = a;
-            this.b = b;
+        public Edge(int s, int e, int w) {
+            this.s = s;
+            this.e = e;
             this.w = w;
         }
     }
+    
+    public int[] uf;
+    //크루스칼 알고리즘 MST
     public int solution(int n, int[][] costs) {
-        int answer = 0;
-       
-        Arrays.sort(costs, Comparator.comparing((int[] o) -> o[2]));
+        
+        //union find 초기화
         uf = new int[n];
-        
-        for(int i=0;i<n;i++)
+        for(int i=0;i<n;i++) {
             uf[i] = i;
+        }
         
-        int count=0;
-        while(count < n-1) {
-            for(int[] cost : costs) {
-                int a = find(cost[0]);
-                int b = find(cost[1]);
-                if(a!=b) {
-                    union(a,b);
-                    answer+=cost[2];
-                    count++;
-                }
+        ArrayList<Edge> list = new ArrayList<>();
+        
+        for(int[] cost : costs) {
+            list.add(new Edge(cost[0], cost[1], cost[2]));
+        }
+        
+        //1. cost 기준 오름차순
+        list.sort(Comparator.comparingInt(e -> e.w));
+        
+        int cnt = 0;
+        int total = 0;
+
+        for(Edge edge : list) {
+            if(find(edge.s) != find(edge.e)) {
+                union(find(edge.s), find(edge.e));
+                total += edge.w;
             }
         }
         
-        return answer;
+        return total;
     }
     
-    public int find(int a) {
-        if(a==uf[a])
-            return a;
-        else return uf[a]=find(uf[a]);
+    public int find(int x) {
+        if(uf[x] == x)
+            return x;
+        
+        return uf[x] = find(uf[x]);
     }
     
     public void union(int a, int b) {
         if(find(a) != find(b))
-            uf[b]=a;
+            uf[b] = a;
     }
 }
