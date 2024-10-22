@@ -1,81 +1,67 @@
 import java.util.*;
 class Solution {
+    //추가된 노드는 들어오는 선이 없고, 나가는 선이 2개 이상임
+    //도넛 모양은 나가는거 1개 들어오는거 1개
+    //막대모양은 나가고 들어오는게 없을수도, 나가는게 1개 들어오는게 1개 일수도
+    //8자 모양은 들어오는게 2개 나가는게 2개인게 중심 노드
     private static List<List<Integer>> graph;
     private static int[] enter;
-    private static boolean[] visited;
+
     
     public int[] solution(int[][] edges) {
+                
         int[] answer = new int[4];
-        
-        int max = 0;
-        for(int[] edge : edges) {
-            max = Math.max(max, Math.max(edge[0],edge[1]));
+        graph = new ArrayList<>();
+        enter = new int[1000001];
+     
+        for(int i = 0; i <= 1000000; i++) {
+            graph.add(new ArrayList<>());
         }
-                              
-        graph = new ArrayList<>(max+1);
-        visited = new boolean[max+1];
-        
-        for(int i = 0; i < max + 1; i++) {
-            graph.add(new LinkedList<>());
-        }
-        
-        enter = new int[max + 1];
-        for(int[] edge : edges) {
+
+        for(int[] edge: edges) {
             graph.get(edge[0]).add(edge[1]);
             enter[edge[1]]++;
         }
         
-        //나가는 간선이 2개 이상, 들어오는 간선 X
-        int create = findCreate();
-
-        //총 그래프 개수
-        int totalGraphCount = graph.get(create).size();
- 
-        answer[0] = create;
-        answer[2] = findStickGraph();
-        answer[3] = findEightGraph();
-        answer[1] = totalGraphCount - answer[2] - answer[3];
+        //find 추가된 노드
+        answer[0] = find();
+      
+        int num = graph.get(answer[0]).size();
+        
+        answer[3] = findEight();
+        answer[2] = findStick();
+        answer[1] = num - answer[2] - answer[3];
+        
         return answer;
     }
     
-    
-    private static int findCreate() {
-        for(int i = 0; i < graph.size(); i++) {
-            if(graph.get(i).size() >= 2 && checkNotEnter(i)) {
-                visited[i] = true;
+    //추가된 노드 찾기
+    public int find() {
+        for(int i = 1; i < graph.size(); i++) {
+            if(graph.get(i).size() >= 2 && enter[i] == 0) 
                 return i;
-            }
         }
         return -1;
     }
     
-    private static boolean checkNotEnter(int i) {
-        if(enter[i] == 0) return true;
-        else return false;
-    }
-    
-    //나가는 간선 X, 들어오는 간선 >= 1
-    private static int findStickGraph() {
+    //8자 개수 찾기
+    public int findEight() {
         int count = 0;
         for(int i = 1; i < graph.size(); i++) {
-            if(graph.get(i).isEmpty() && enter[i] >= 1 && !visited[i]) {
-                visited[i] = true;
+            if(enter[i] >= 2 && graph.get(i).size() == 2) {
                 count++;
             }
         }
         return count;
     }
     
-    // 나가는 간선 >= 2 , 들어오는 간선 >= 2
-    private static int findEightGraph() {
+    //막대 개수 찾기
+    public int findStick() {
         int count = 0;
         for(int i = 1; i < graph.size(); i++) {
-            if(graph.get(i).size() >= 2 && enter[i] >= 2 && !visited[i]) {
-                count++;
-            }
-            visited[i] = true;
+            if(enter[i] >= 1 && graph.get(i).size() == 0) count++;
         }
+        
         return count;
     }
-
 }
