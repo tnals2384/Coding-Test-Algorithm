@@ -72,7 +72,7 @@ public class Main {
 
                 if (check(nx, ny)) {
                     if (map[ny][nx] == 1 && now.k > 0) { //벽을 깰수 잇음
-                        if (goodVisited(nx, ny, now.k)) continue;
+                        if (goodVisited(nx, ny, now.k-1)) continue;
 
                         if (!now.night) {
                             queue.add(new Node(nx, ny, true, now.count + 1, now.k - 1));
